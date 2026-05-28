@@ -1,7 +1,7 @@
-# Apache logs
+# Apache / application logs
 *.log
 
-# Nano swap files
+# Nano / editor swap files
 *.swp
 
 # Environment variables
@@ -12,3 +12,15 @@
 
 # macOS junk
 .DS_Store
+
+# Windows junk
+Thumbs.db
+
+# Storage folders
+/storage/logs/*
+!/storage/logs/.gitkeep
+/storage/uploads/*
+!/storage/uploads/.gitkeep
+
+# Future Composer dependencies
+/vendor/

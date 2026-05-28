@@ -7,7 +7,7 @@ class HomeController extends Controller
 	$data = [
 	      'title' => 'Home',
 	      'heading' => 'Home Page',
-	      'message' => 'Welcome to my custom PHHP OOP website.'
+	      'message' => 'Welcome to my custom PHP OOP website.'
 	];
 
 	$this->view('home/index', $data);
