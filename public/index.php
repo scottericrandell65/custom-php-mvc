@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+session_start();
 
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
@@ -70,6 +71,7 @@ $router = new Router();
 $router->get('/', [HomeController::class, 'index']);
 $router->get('/about', [HomeController::class, 'about']);
 $router->get('/contact', [HomeController::class, 'contact']);
+$router->post('/contact', [HomeController::class, 'contactSubmit']);
 
 /*
 |-----------------------------------------------

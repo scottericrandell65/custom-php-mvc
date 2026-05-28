@@ -29,11 +29,47 @@ class HomeController extends Controller
     {
 
 	$data = [
-	      'title' => 'Contact',
-	      'heading' => 'Contact Page',
-	      'message' => 'Send me a message below.'
+	    'title' => 'contact',
+	    'heading' => 'Contact Page',
+	    'message' => 'Send me a message below.',
+	    'errors' => $_SESSION['errors'] ?? [],
+	    'success' => $_SESSION['success'] ?? null
 	];
 
+	unset($_SESSION['errors'], $_SESSION['success']);
+
 	$this->view('home/contact', $data);
+    }
+
+    public function contactSubmit(): void
+    {
+
+	$name = trim($_POST['name'] ?? '');
+	$email = trim($_POST['email'] ?? '');
+	$message = trim($_POST['message'] ?? '');
+	$errors = [];
+
+	if ($name === '') {
+	    $errors[] = "Your name is required";
+	}
+	if ($email === '') {
+	    $errors[] = "Your Email is required";
+	} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+	    $errors[] = "Your Email is not valid";
+	}
+	if ($message === '') {
+	    $errors[] = "A message is required";
+	}
+	// If errors , then store and redirect back
+	if (!empty($errors)) {
+	    $_SESSION['errors'] = $errors;
+	    header("Location: /contact");
+	    exit;
+	}
+
+	// Success message
+	$_SESSION['success'] = "Form submitted successfully!";
+	header("Location: /contact");
+	exit;
     }
 }
