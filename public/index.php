@@ -67,12 +67,11 @@ require_once __DIR__ . '/../app/core/Router.php';
 */
 
 $router = new Router();
-
 $router->get('/', [HomeController::class, 'index']);
 $router->get('/about', [HomeController::class, 'about']);
 $router->get('/contact', [HomeController::class, 'contact']);
 $router->post('/contact', [HomeController::class, 'contactSubmit']);
-
+$router->get('/post/{id}', [PostController::class, 'show']);
 /*
 |-----------------------------------------------
 ------------------------------------------------

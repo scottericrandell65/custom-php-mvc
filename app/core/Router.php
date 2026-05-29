@@ -15,6 +15,7 @@
 class Router
 {
 	private array $routes = [];
+	private array $params = [];
 
 	public function get(string $path, $callback): void
 	{
@@ -28,28 +29,53 @@ class Router
 
 	public function dispatch(): void
 	{
-		$method = $_SERVER['REQUEST_METHOD'];
-		$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+                $method = $_SERVER['REQUEST_METHOD'];
+	        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-		$callback = $this->routes[$method][$uri] ?? null;
+	       foreach ($this->routes[$method] ?? [] as $path => $callback) {
+		      $pattern = $this->convertPathToRegex($path);
 
-		if (!$callback) {
-		    http_response_code(404);
-		    echo "404 - Page not found";
-		    return;
-		}
+		      if (preg_match($pattern, $uri, $matches)) {
+		        array_shift($matches);
+			  $this->params = $matches;
+		     $this->runCallback($callback);
+		     return;
+	}
+    }
+	http_response_code(404);
+	echo "404 - Page not found";
+}
 
-		// If callback is [Class, method]
+	private function convertPathToRegex(string $path): string
+	{
+		$pattern = preg_replace('/\{[a-zA-Z]+\}/', '([^/]+)', $path);
+		return '#^' . $pattern . '$#';
+	}
+
+	private function runCallback($callback): void
+	{
+		// Controller callback
 		if (is_array($callback)) {
-		   $class = $callback[0];
-		   $method = $callback[1];
+
+		$class = $callback[0];
+
+		$method = $callback[1];
 
 		$controller = new $class();
-		   $controller->$method();
-		   return;
-		}
 
-		// If callback is a function
-		$callback();
-	 }
+		call_user_func_array(
+		    [$controller, $method],
+		    $this->params
+		);
+
+		return;
+	}
+
+	// Function callback
+	call_user_func_array(
+	    $callback,
+	    $this->params
+	);
+     }
 }
+
