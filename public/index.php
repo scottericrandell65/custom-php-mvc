@@ -72,6 +72,12 @@ $router->get('/about', [HomeController::class, 'about']);
 $router->get('/contact', [HomeController::class, 'contact']);
 $router->post('/contact', [HomeController::class, 'contactSubmit']);
 $router->get('/post/{id}', [PostController::class, 'show']);
+$router->get('/db-test', function () {
+
+     $db = new Database();
+
+     echo 'Database connection successfull!';
+});
 /*
 |-----------------------------------------------
 ------------------------------------------------
