@@ -72,12 +72,11 @@ $router->get('/about', [HomeController::class, 'about']);
 $router->get('/contact', [HomeController::class, 'contact']);
 $router->post('/contact', [HomeController::class, 'contactSubmit']);
 $router->get('/post/{id}', [PostController::class, 'show']);
-$router->get('/db-test', function () {
-
-     $db = new Database();
-
-     echo 'Database connection successfull!';
-});
+$router->get('/posts', [PostController::class, 'index']);
+$router->get('/posts/create', [PostController::class, 'create']);
+$router->post('/posts/store', [PostController::class, 'store']);
+$router->get('/posts/edit/{id}', [PostController::class, 'edit']);
+$router->post('/posts/update/{id}', [PostController::class, 'update']);
 /*
 |-----------------------------------------------
 ------------------------------------------------
