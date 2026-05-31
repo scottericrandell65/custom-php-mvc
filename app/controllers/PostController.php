@@ -102,4 +102,14 @@ class PostController extends Controller
 	   exit;
 	}
 
+	public function delete($id): void
+	{
+	   $db = new Database();
+
+	   $db->query("DELETE FROM posts WHERE id =" . (int)$id);
+
+	   header("Location: /posts");
+	   exit;
+
+   }
 }

@@ -77,6 +77,7 @@ $router->get('/posts/create', [PostController::class, 'create']);
 $router->post('/posts/store', [PostController::class, 'store']);
 $router->get('/posts/edit/{id}', [PostController::class, 'edit']);
 $router->post('/posts/update/{id}', [PostController::class, 'update']);
+$router->post('/posts/delete/{id}', [PostController::class, 'delete']);
 /*
 |-----------------------------------------------
 ------------------------------------------------
