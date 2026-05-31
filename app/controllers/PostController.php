@@ -6,29 +6,40 @@ class PostController extends Controller
 	{
 	    $db = new Database();
 
-	    $stmt = $db->query("SELECT * FROM posts WHERE id = " . (int)$id);
-	    $post = $stmt->fetch(PDO::FETCH_ASSOC);
+	    // Fetch single post safely using parameter binding
+	    $post = $db->fetch(
+		"SELECT * FROM posts WHERE id = ?",
+		[(int)$id]
+	    );
 
 	    if (!$post) {
-	        http_response_code(404);
-	        echo "Post not found";
-	        return;
+		http_response_code(404);
+		echo "Post not found";
+		return;
+	    }
+
+	    $this->view('posts/show', $post);
 	}
 
-	$this->view('posts/show', $post);
-   }
+
 	// Method Index
 	public function index(): void
 	{
-
+	   // Create database connection
 	   $db = new Database();
 
-	   $stmt = $db->query("SELECT * FROM posts ORDER BY id DESC");
-	   $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	   /**
+	    * Fetch all posts from database
+	    * ORDER BY id DESC = newest first
+	    */
+	   $posts = $db->fetchAll(
+		"SELECT * FROM posts ORDER BY id DESC"
+	   );
 
+	   // Pass data to view
 	   $this->view('posts/index', [
-	       'title' => 'All Posts',
-	       'posts' => $posts
+		'title' => 'All Posts',
+		'posts' => $posts
 	   ]);
 	}
 
@@ -54,9 +65,10 @@ class PostController extends Controller
 
 	    $db = new Database();
 
-	    $stmt = $db->query(
-	        "INSERT INTO posts (title, content)
-	         VALUES ('" . addslashes($title) . "', '" . addslashes($content) . "')"
+	    $db->execute(
+	        "INSERT INTO posts (title, content) VALUES (?, ?)",
+		[$title, $content]
+
 	    );
 
 	    header("Location: /posts");
@@ -96,11 +108,11 @@ class PostController extends Controller
 
 	   $db = new Database();
 
-	   $db->query("
-	       UPDATE posts
-	       SET title = '" . addslashes($title) . "',
-		   content = '" . addslashes($content) . "'
-	       WHERE id = " . (int)$id
+	   $db->execute(
+		"UPDATE posts
+		 SET title = ?, content = ?
+		 WHERE id = ?",
+		[$title, $content, (int)$id]
 	   );
 
 	   header("Location: /posts");
@@ -113,7 +125,10 @@ class PostController extends Controller
 
 	   $db = new Database();
 
-	   $db->query("DELETE FROM posts WHERE id =" . (int)$id);
+	   $db->execute(
+		"DELETE FROM posts WHERE id = ?",
+		[(int)$id]
+	   );
 
 	   header("Location: /posts");
 	   exit;
