@@ -35,12 +35,15 @@ class PostController extends Controller
 	public function create(): void
 	{
 	   $this->view('posts/create', [
-	       'title' => 'Create Post'
+	       'title' => 'Create Post',
+	       'token' => $this->csrfToken()
 	   ]);
 	}
 
 	public function store(): void
 	{
+	    $this->verifyCsrfToken();
+
 	    $title = trim($_POST['title'] ?? '');
 	    $content = trim($_POST['content'] ?? '');
 
@@ -75,12 +78,14 @@ class PostController extends Controller
 
 	    $this->view('posts/edit', [
 		'title' => 'Edit Post',
-		'post' => $post
+		'post' => $post,
+		'token' => $this->csrfToken()
 	    ]);
 	}
 
 	public function update($id): void
 	{
+	    $this->verifyCsrfToken();
 	    $title = trim($_POST['title'] ?? '');
 	    $content = trim($_POST['content'] ?? '');
 
@@ -104,6 +109,8 @@ class PostController extends Controller
 
 	public function delete($id): void
 	{
+	   $this->verifyCsrfToken();
+
 	   $db = new Database();
 
 	   $db->query("DELETE FROM posts WHERE id =" . (int)$id);

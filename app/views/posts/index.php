@@ -11,8 +11,9 @@
 		   </a>
 
 		   <a href="/posts/edit/<?= $post['id'] ?>">Edit</a>
+		     <form method="POST" action="/posts/delete/<?= $post['id'] ?>" style="display:inline;">
+		     <input type="hidden" name="_token" value="<?= $_SESSION['_token'] ?>">
 
-		   <form method="POST" action="/posts/delete/<?= $post['id'] ?>" style="display:inline;">
 		     <button type="submit" onclick="return confirm('Delete this post?')">
 			Delete
 		     </button>

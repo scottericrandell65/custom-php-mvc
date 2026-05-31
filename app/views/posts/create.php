@@ -1,6 +1,7 @@
 <h1><?= htmlspecialchars($title) ?></h1>
 
 <form method="POST" action="/posts/store">
+    <input type="hidden" name="_token" value="<?= $token ?>">
     <label>Title</label><br>
     <input type="text" name="title"><br><br>
 
