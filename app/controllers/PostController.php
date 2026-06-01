@@ -2,45 +2,41 @@
 
 class PostController extends Controller
 {
+	private PostModel $postModel;
+
+	public function __construct()
+	{
+	    $this->postModel = new PostModel();
+	}
+
 	public function show($id): void
 	{
-	    $db = new Database();
+	    // Ask model instead of database directly
+	    $post = $this->postModel->find((int)$id);
 
-	    // Fetch single post safely using parameter binding
-	    $post = $db->fetch(
-		"SELECT * FROM posts WHERE id = ?",
-		[(int)$id]
-	    );
+	   // Handle missing post
+	   if (!$post) {
+	       http_response_code(404);
+	       echo "Post not found";
+	       return;
+	   }
 
-	    if (!$post) {
-		http_response_code(404);
-		echo "Post not found";
-		return;
-	    }
-
-	    $this->view('posts/show', $post);
+	   // Load view
+	   $this->view('posts/show', $post);
 	}
 
 
 	// Method Index
 	public function index(): void
 	{
-	   // Create database connection
-	   $db = new Database();
+	    // Show all posts
+	    $posts = $this->postModel->all();
 
-	   /**
-	    * Fetch all posts from database
-	    * ORDER BY id DESC = newest first
-	    */
-	   $posts = $db->fetchAll(
-		"SELECT * FROM posts ORDER BY id DESC"
-	   );
-
-	   // Pass data to view
-	   $this->view('posts/index', [
+	    $this->view('posts/index', [
 		'title' => 'All Posts',
-		'posts' => $posts
-	   ]);
+		'posts' => $posts,
+		'token' => $this->csrfToken()
+	    ]);
 	}
 
 	public function create(): void
@@ -53,37 +49,33 @@ class PostController extends Controller
 
 	public function store(): void
 	{
+	    // Protect against CSRF attacks
 	    $this->verifyCsrfToken();
 
-	    $title = trim($_POST['title'] ?? '');
-	    $content = trim($_POST['content'] ?? '');
+	   // Get and clean input
+	   $title = trim($_POST['title'] ?? '');
+	   $content = trim($_POST['content'] ?? '');
 
-	    if ($title === '' || $content === '') {
-	        echo "Title and content are required.";
-		return;
-	    }
+	   // Basic validation
+	   if ($title === '' || $content === '') {
+	      echo "Title and content are required.";
+	      return;
+	   }
 
-	    $db = new Database();
+	   // Delegate to model (clean architecture)
+	   $this->postModel->create($title, $content);
 
-	    $db->execute(
-	        "INSERT INTO posts (title, content) VALUES (?, ?)",
-		[$title, $content]
-
-	    );
-
-	    header("Location: /posts");
-	    exit;
+	   // Redirect after success (Post/Redirect/GET pattern)
+	   header("Location: /posts");
+	   exit;
 	}
 
 	public function edit($id): void
 	{
-	    $db = new Database();
-
-	    $stmt = $db->query("SELECT * FROM posts WHERE id = " . (int)$id);
-	    $post = $stmt->fetch(PDO::FETCH_ASSOC);
+	    $post = $this->postModel->find((int)$id);
 
 	    if (!$post) {
-		http_response_code(404);
+	        http_response_code(404);
 		echo "Post not found";
 		return;
 	    }
@@ -97,41 +89,37 @@ class PostController extends Controller
 
 	public function update($id): void
 	{
+	    // Protect against CSRF attacks
 	    $this->verifyCsrfToken();
+
+	    // Clean input
 	    $title = trim($_POST['title'] ?? '');
 	    $content = trim($_POST['content'] ?? '');
 
+	    // Basic validation
 	    if ($title === '' || $content === '') {
-		echo "Title and content are required.";
-		return;
-	   }
+	    echo "Title and content are required.";
+	    return;
+	    }
 
-	   $db = new Database();
+	    // Delegate update logic to model
+	    $this->postModel->update((int)$id, $title, $content);
 
-	   $db->execute(
-		"UPDATE posts
-		 SET title = ?, content = ?
-		 WHERE id = ?",
-		[$title, $content, (int)$id]
-	   );
-
-	   header("Location: /posts");
-	   exit;
+	    // Redirect after successful update
+	    header("Location: /posts");
+	    exit;
 	}
 
 	public function delete($id): void
 	{
-	   $this->verifyCsrfToken();
+	    // CSRF protection (prevents forged delete requests)
+	    $this->verifyCsrfToken();
 
-	   $db = new Database();
+	    // Delegate deletion to model layer
+	    $this->postModel->delete((int)$id);
 
-	   $db->execute(
-		"DELETE FROM posts WHERE id = ?",
-		[(int)$id]
-	   );
-
-	   header("Location: /posts");
-	   exit;
-
-   }
+	    // Redirect back to posts list
+	    header("Location: /posts");
+	    exit;
+        }
 }

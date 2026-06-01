@@ -24,3 +24,18 @@ Thumbs.db
 
 # Future Composer dependencies
 /vendor/
+
+# Environment / secrets
+.env
+
+# Logs
+*.log
+
+# OS / editor noise
+.DS_store
+.idea/
+.vscode/
+
+# Cash files
+cache/
+tmp/

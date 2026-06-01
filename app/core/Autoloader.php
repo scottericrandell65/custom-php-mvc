@@ -15,8 +15,9 @@ class Autoloader
 spl_autoload_register(function($class) {
 
 	$paths = [
-	     __DIR__ . '/',
-	     __DIR__ . '/../controllers/'
+	     __DIR__ . '/',		   // Core classes
+	     __DIR__ . '/../controllers/', // Controllers
+	     __DIR__ . '/../models/'	   // Models
 		 ];
 	foreach ($paths as $path)
 {
