@@ -1,5 +1,11 @@
 <h1><?= htmlspecialchars($title) ?></h1>
 
+<?php if (!empty($success)): ?>
+    <div class="flash-success">
+       <?= htmlspecialchars($success) ?>
+    </div>
+<?php endif; ?>
+
 <?php if (empty($posts)): ?>
 	<p>No posts found.</p>
 <?php else: ?>
@@ -12,7 +18,7 @@
 
 		   <a href="/posts/edit/<?= $post['id'] ?>">Edit</a>
 		     <form method="POST" action="/posts/delete/<?= $post['id'] ?>" style="display:inline;">
-		     <input type="hidden" name="_token" value="<?= $_SESSION['_token'] ?>">
+		     <input type="hidden" name="_token" value="<?= $token ?>">
 
 		     <button type="submit" onclick="return confirm('Delete this post?')">
 			Delete

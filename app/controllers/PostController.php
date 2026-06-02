@@ -27,17 +27,18 @@ class PostController extends Controller
 
 
 	// Method Index
-	public function index(): void
-	{
-	    // Show all posts
-	    $posts = $this->postModel->all();
+       public function index(): void
+       {
+	   // Show all posts
+           $posts = $this->postModel->all();
 
-	    $this->view('posts/index', [
-		'title' => 'All Posts',
-		'posts' => $posts,
-		'token' => $this->csrfToken()
-	    ]);
-	}
+              $this->view('posts/index', [
+                  'title' => 'All Posts',
+                  'posts' => $posts,
+                  'success' => $this->getFlash('success'),
+                  'token' => $this->csrfToken()
+              ]);
+        }
 
 	public function create(): void
 	{
@@ -64,6 +65,7 @@ class PostController extends Controller
 
 	   // Delegate to model (clean architecture)
 	   $this->postModel->create($title, $content);
+	   $this->flash('success', 'Post created successfully');
 
 	   // Redirect after success (Post/Redirect/GET pattern)
 	   header("Location: /posts");

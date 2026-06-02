@@ -2,6 +2,32 @@
 
 class Controller
 {
+    /**
+     * Store a flash message in session
+     * Will persist only for next request
+     */
+    protected function flash(string $key, string $message): void
+    {
+	$_SESSION['flash'][$key] = $message;
+    }
+
+    /**
+     * Retrieve and remove flash message
+     */
+    protected function getFlash(string $key): ?string
+    {
+	if (!isset($_SESSION['flash'][$key])) {
+	    return null;
+	}
+
+	$message = $_SESSION['flash'][$key];
+
+	// Important: remove after reading (one-time display)
+	unset($_SESSION['flash'][$key]);
+
+	return $message;
+    }
+
     protected function view(string $view, array $data = []): void
 	{
 	   extract($data);
