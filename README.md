@@ -1,54 +1,191 @@
 # PHP MVC Framework
 
-This is a custom PHP MVC-style framework
-built from scratch for learning and full control
-over backend architecture, featuring a
-fully functional blog system with CRUD operations,
-CSRF protection, and a custom router.
+A custom PHP MVC framework built from scratch for learning, 
+experimentation, and complete architectural control.
 
-## What it does right now
+The project currently includes a working blog system, 
+comment system, validation layer, flash messaging, 
+CSRF protection, authentication foundation, 
+and a custom routing engine without relying on a 
+third-party framework.
 
-- Custom MVC architecture (no framework dependency)
-- Custom Router with dynamic parameter support
-- Full CRUD for blog posts
-- CSRF protection for all state-changing requests
-- PDO-based database layer with prepared statements
-- Separation autoloading support
+## Current Features
+
+### Core Framework
+
+- Custom MVC architecture
+- Custom Router with dynamic route parameters
+- Autoloading system
+- Base Controller class
+- PDO database abstraction layer
+- Prepared statements for SQL safety
+- View rendering with layout support
+
+### Security
+
+- CSRF protection
+- Password hashing support
+- Input validation layer
+- Session-based authentication foundation
+
+### Blog System
+
+- Create posts
+- Read posts
+- Update posts
+- Delete posts
+- Post detail pages
+
+### Comment System
+
+- Add comments to blog posts
+- Comment validation
+- Flash success messages
+- Validation error handling
+- Sticky form inputs after validation failures
+
+### User Experience
+
+- Flash messaging system
+- Layout system
+- Reusable partials
+- Asset pipeline for CSS, JavaScript, and images
+
+### Authentication (Current Status)
+
+Completed:
+
+- Users database table
+- UserModel
+- AuthController
+- Login page
+- Authentication routes
+
+In Progress:
+
+- User registration
+- Login/logout testing
+- Route protection
+- Authorization middleware
+
+---
 
 ## Architecture Overview
-The application follows a simplified MVC pattern:
+
+The application follows a traditional MVC architecture.
+
+### Request Flow
+
+Browser  
+→ public/index.php  
+→ Router  
+→ Controller  
+→ Model  
+→ Database  
+→ View  
+→ Layout  
+→ Browser  
+
+---
 
 ## Project Structure
 
-```
+```text
 app/
-|--- core/		# Framework core (Router, DB, Controller, Autoloader)
-|--- controllers/	# Application controllers
-|--- models/		# Data models (e.g., PostModel)
-|--- views/		# UI templates
-|     |___ posts/	
-|--- config/		# Database configuration
+├── controllers/
+├── core/
+│   ├── Autoloader.php
+│   ├── Controller.php
+│   ├── Database.php
+│   ├── Router.php
+│   ├── Validator.php
+│   ├── Request.php
+│   └── Session.php
+│
+├── models/
+│   ├── PostModel.php
+│   ├── CommentModel.php
+│   └── UserModel.php
+│
+├── views/
+│   ├── layouts/
+│   ├── partials/
+│   ├── posts/
+│   ├── auth/
+│   └── errors/
 
-public
-|___ index.php		# Entry point
+config/
+└── database.php
 
-vendor/			# Composer dependencies (ignored in git)
+public/
+├── index.php
+└── assets/
+    ├── css/
+    ├── js/
+    └── img/
 ```
 
-## Active Development
-The next phase of this project is focused on
-improving user experience and moving toward a
-more polished, framework-like structure.
+---
 
-### In progress
-- Flash messaging system (success/error feedback after actions)
+## Database Tables
 
-### Next UI improvements
-- Basic layout styling using CSS
-- Cleaner form design for create/edit pages
-- Improved navigation and post listing UI
+Current Tables
 
-### Future UI direction
-- Responsive layout (mobile-friendly)
-- Reusable layout components
-- Optional frontend styling framework integration (minimal, not heavy framework dependence)
+- posts
+- comments
+- users
+
+---
+
+## Development Roadmap
+
+### Current Milestone
+
+Authentication System
+
+- Registration
+- Login verification
+- Logout
+- Session management
+- Route protection
+
+---
+
+### Planned Features
+
+- User-owned posts
+- User-owned comments
+- Image uploads for posts
+- Pagination
+- Authorization roles
+- Admin dashboard
+- Search functionality
+
+---
+
+## Design Philosophy
+
+This project intentionally avoids large frameworks in 
+order to understand and implement the underlying concepts manually:
+
+- Routing
+- Controllers
+- Models
+- Views
+- Validation
+- Authentication
+- Sessions
+- Security
+
+The goal is a clean, extensible MVC architecture that can 
+continue growing without major rewrites.
+
+
+
+
+
+
+
+
+
+

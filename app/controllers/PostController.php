@@ -31,10 +31,21 @@ class PostController extends Controller
 	    return;
 	}
 	
+	$commentModel = new CommentModel();
+	$comments = $commentModel->getByPostId((int)$id);
+	
 	$this->view('posts/show', [
 	    'title' => $post['title'],
-	    'content' => $post['content']
+	    'content' => $post['content'],
+	    'post_id' => $post['id'],
+	    'comments' => $comments,
+	    'errors' => $_SESSION['errors'] ?? [],
+	    'old' => $_SESSION['old'] ?? [],
+	    'token' => $this->csrfToken(),
+	    'success' => $this->getFlash('success')
 	]);
+	
+	unset($_SESSION['errors'], $_SESSION['old']);
     }
     
     public function create(): void
