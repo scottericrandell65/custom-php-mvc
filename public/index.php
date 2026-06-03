@@ -71,6 +71,8 @@ $router->get('/', [HomeController::class, 'index']);
 $router->get('/about', [HomeController::class, 'about']);
 $router->get('/contact', [HomeController::class, 'contact']);
 $router->post('/contact', [HomeController::class, 'contactSubmit']);
+$router->get('/register', [AuthController::class, 'register']);
+$router->post('/register', [AuthController::class, 'store']);
 $router->get('/login', [AuthController::class, 'login']);
 $router->post('/login', [AuthController::class, 'authenticate']);
 $router->post('/logout', [AuthController::class, 'logout']);
@@ -82,6 +84,7 @@ $router->get('/posts/edit/{id}', [PostController::class, 'edit']);
 $router->post('/posts/update/{id}', [PostController::class, 'update']);
 $router->post('/posts/delete/{id}', [PostController::class, 'delete']);
 $router->post('/post/{id}/comment', [CommentController::class, 'store']);
+
 /*
 |-----------------------------------------------
 ------------------------------------------------

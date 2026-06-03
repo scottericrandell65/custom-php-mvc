@@ -53,20 +53,30 @@ third-party framework.
 
 ### Authentication (Current Status)
 
-Completed:
+#### Completed:
 
 - Users database table
 - UserModel
 - AuthController
-- Login page
 - Authentication routes
+- User registration system
+- Password hashing (secure storage)
+- Auto-login after registration
+- User creation in database
 
-In Progress:
+#### In Progress:
 
-- User registration
 - Login/logout testing
+- Login flow validation and UX consistency
+- Logout implementation and session cleanup
+- Route protection (auth middleware-style guards)
 - Route protection
 - Authorization middleware
+
+#### Current State
+
+Authentication foundation is functional via registration, 
+but full login/logout lifecycle is still being finalized.
 
 ---
 

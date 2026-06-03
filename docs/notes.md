@@ -5,7 +5,7 @@ progress, and upcoming work for the custom PHP MVC framework.
 
 ---
 
-## 🟢 Current Status (Stable System)
+## Current Status (Stable System)
 
 The core framework is now stable and functional with:
 
@@ -24,6 +24,29 @@ The core framework is now stable and functional with:
 
 ## Recently Completed Work
 
+- User registration system implemented
+- Password hashing and secure storage
+- Auto-login after registration working
+- User records created successfully in database
+
+---
+
+### Partially Completed
+
+- Login flow exists but still being finalized for full consistency
+- Logout functionality requires verification and cleanup confirmation
+- Session-based authentication foundation is in place
+
+---
+
+### Next Step
+
+- Finalize login/logout lifecycle
+- Implement route protection (auth guards)
+- Prepare user ownership model for posts/comments
+
+---
+
 ### Authentication Foundation
 - Created UserModel
 - Created AuthController
@@ -31,6 +54,8 @@ The core framework is now stable and functional with:
 - Added password hashing (password_hash / password_verify)
 - Session-based authentication state established
 - Login page integrated into MVC system
+
+---
 
 ### UI/UX Layer
 - Asset pipeline created (public/assets)
@@ -45,7 +70,7 @@ The core framework is now stable and functional with:
 
 ### Authentication Completion Phase
 
-Next required steps:
+#### Next required steps:
 
 - User registration system
 - Login/logout flow finalization
