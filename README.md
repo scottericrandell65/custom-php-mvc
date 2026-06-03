@@ -1,4 +1,5 @@
 # PHP MVC Framework
+![MVC Banner](public/assets/img/MVC1.jpg)
 
 A custom PHP MVC framework built from scratch for learning, 
 experimentation, and complete architectural control.
