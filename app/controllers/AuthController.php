@@ -11,6 +11,8 @@
 		
 		public function register(): void
 		{
+			$this->guestOnly();
+			
 			$this->view('auth/register', [
 				'title' => 'Register',
 				'token' => $this->csrfToken(),
@@ -75,6 +77,8 @@
 			
 		public function login(): void
 		{
+			$this->guestOnly();
+			
 			$this->view('auth/login', [
 				'title' => 'Login',
 				'token' => $this->csrfToken(),
@@ -131,6 +135,7 @@
 			  $_SESSION['user_name'] = $user['name'];
 			  
 			  $this->flash('success', 'Logged in successfully.');
+			  $_SESSION['user_email'] = $user['email'];
 			  
 			  header('Location: /');
 			  exit;
@@ -138,10 +143,14 @@
 		
 		public function logout(): void
 		{
+			// Clear authentication data
 			unset(
 				$_SESSION['user_id'],
 				$_SESSION['user_name']
 			);
+			
+			// Optional but cleaner: regenerate session ID (prevents fixation issues)
+			session_regenerate_id(true);
 			
 			$this->flash('success', 'Logged out successfully.');
 			

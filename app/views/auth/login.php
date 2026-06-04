@@ -8,7 +8,7 @@
 		   name="_token"
 		   value="<?= $token ?>">
 		   
-    <div
+	<div>
 		<label>Email</label><br>
 		
 		<input

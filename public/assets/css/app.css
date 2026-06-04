@@ -13,7 +13,8 @@ hr {
 	margin: 20px 0;
 }
 
-input, textarea {
+input,
+textarea {
 	width: 100%;
 	max-width: 500px;
 	padding: 8px;
@@ -42,4 +43,52 @@ a {
 
 a:hover {
 	text-decoration: underline;
+}
+
+.post-item {
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #ddd;
+}
+
+.post-meta {
+	display: block;
+	font-size: 0.9em;
+	color: #666;
+	margin-top: 3px;
+}
+
+.post-actions {
+	margin-top: 5px;
+}
+
+.inline-form {
+	display: inline;
+}
+
+.link-button {
+	background: none;
+	border: none;
+	color: #2980b9;
+	cursor: pointer;
+	padding: 0;
+	font: inherit;
+}
+
+.link-button:hover {
+	text-decoration: underline;
+}
+
+.flash-success {
+	background: #e6ffed;
+	padding: 10px;
+	border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+.flash-error {
+	background: #ffe6e6;
+	padding: 10px;
+	border-radius: 4px;
+	margin-bottom: 10px;
 }

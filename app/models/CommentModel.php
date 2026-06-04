@@ -15,8 +15,9 @@ class CommentModel
 	public function create(int $postId, string $name, string $comment): bool
 	{
 		return $this->db->execute(
-			"INSERT INTO comments (post_id, name, comment) VALUES (?, ?, ?)",
-			[$postId, $name, $comment]
+			"INSERT INTO comments (post_id, name, comment, user_id) 
+			VALUES (?, ?, ?, ?)",
+			[$postId, $name, $comment, $_SESSION['user_id']]
 		);
 	}
 	

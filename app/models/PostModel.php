@@ -20,7 +20,10 @@
 	public function all(): array
 	{
 	    return $this->db->fetchAll(
-		"SELECT * FROM posts ORDER BY id DESC"
+		"SELECT posts.*, users.name AS author
+		 FROM posts
+		 LEFT JOIN users ON users.id = posts.user_id
+		 ORDER BY posts.id DESC"
 	    );
 	}
 
@@ -30,8 +33,10 @@
 	public function find(int $id): array|false
 	{
 	    return $this->db->fetch(
-		"SELECT * FROM posts WHERE id = ?",
-		[$id]
+		"SELECT posts.*, users.name AS author
+		FROM posts
+		LEFT JOIN users ON users.id = posts.user_id
+		WHERE posts.id = ?", [$id]
 	    );
 	}
 
@@ -41,8 +46,9 @@
 	public function create(string $title, string $content): bool
 	{
 	    return $this->db->execute(
-		"INSERT INTO posts (title, content) VALUES (?, ?)",
-		[$title, $content]
+		"INSERT INTO posts (title, content, user_id) 
+		VALUES (?, ?, ?)",
+		[$title, $content, $_SESSION['user_id']]
 	    );
 	}
 

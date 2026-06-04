@@ -35,6 +35,7 @@ class PostController extends Controller
 	$comments = $commentModel->getByPostId((int)$id);
 	
 	$this->view('posts/show', [
+	    'post' => $post,
 	    'title' => $post['title'],
 	    'content' => $post['content'],
 	    'post_id' => $post['id'],
@@ -50,6 +51,13 @@ class PostController extends Controller
     
     public function create(): void
     {
+	$this->requireAuth();
+	
+	if (!$this->isAdmin()) {
+	    http_response_code(403);
+	    exit('Only the site owner can create posts.');
+	}
+	
 	$this->view('posts/create', [
 	    'title' => 'Create Post',
 	    'token' => $this->csrfToken(),
@@ -62,7 +70,12 @@ class PostController extends Controller
     
     public function store(): void
     {
-	$this->verifyCsrfToken();
+	$this->requireAuth();
+	
+	if (!$this->isAdmin()) {
+	    http_response_code(403);
+	    exit('Only the site owner can create posts.');
+	}
 	
 	$validator = new Validator($_POST);
 	
@@ -76,6 +89,8 @@ class PostController extends Controller
 	    header("Location: /posts/create");
 	    exit;
 	}
+	
+	$this->verifyCsrfToken();
 	
 	$this->postModel->create(
 	    trim($_POST['title']),
@@ -96,6 +111,11 @@ class PostController extends Controller
 	    http_response_code(404);
 	    $this->view('errors/404');
 	    return;
+	}
+	
+	if (!$this->isOwner($post)) {
+	    http_response_code(403);
+	    exit('You are not allowed to edit this post.');
 	}
 	
 	$this->view('posts/edit', [
@@ -122,6 +142,19 @@ class PostController extends Controller
 	    exit;
 	}
 	
+	$post = $this->postModel->find((int)$id);
+	
+	if (!$post) {
+	    http_response_code(404);
+	    $this->view('errors/404');
+	    return;
+	}
+	
+	if (!$this->isOwner($post)) {
+	    http_response_code(403);
+	    exit('You are not allowed to update this post.');
+	}
+	
 	$this->postModel->update(
 	    (int)$id,
 	    trim($_POST['title']),
@@ -137,6 +170,18 @@ class PostController extends Controller
     public function delete($id): void
     {
 	$this->verifyCsrfToken();
+	$post = $this->postModel->find((int)$id);
+	
+	if (!$post) {
+	    http_response_code(404);
+	    $this->view('errors/404');
+	    return;
+	}
+	
+	if (!$this->isOwner($post)) {
+	    http_response_code(403);
+	    exit('You are not allowed to delete this post.');
+	}
 	
 	$this->postModel->delete((int)$id);
 	

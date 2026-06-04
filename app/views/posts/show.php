@@ -1,6 +1,33 @@
 <h1><?= htmlspecialchars($title) ?></h1>
 
+<p>
+    <small>
+        By <?= htmlspecialchars($post['author'] ?? 'Unknown') ?>
+    </small>
+</p>
+
 <p><?= htmlspecialchars($content) ?></p>
+
+<?php if (!empty($_SESSION['user_id']) && $post['user_id'] == $_SESSION['user_id']): ?>
+
+    <div style="margin-bottom: 10px;">
+        <a href="/posts/edit/<?= $post_id ?>">Edit Post</a>
+
+        <form method="POST"
+              action="/posts/delete/<?= $post_id ?>"
+              style="display:inline;">
+
+            <input type="hidden" name="_token" value="<?= $token ?>">
+
+            <button type="submit"
+                    onclick="return confirm('Delete this post?')">
+                Delete
+            </button>
+
+        </form>
+    </div>
+    
+<?php endif; ?>
 
 <hr>
 

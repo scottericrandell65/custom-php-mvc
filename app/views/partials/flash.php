@@ -1,13 +1,11 @@
-<?php if (!empty($success)): ?>
-    <div class="flash flash-success">
-        <?= htmlspecialchars($success) ?>
+<?php if ($msg = $this->getFlash('success')): ?>
+    <div class="flash-success">
+        <?= htmlspecialchars($msg) ?>
     </div>
 <?php endif; ?>
 
-<?php if (!empty($errors)): ?>
-    <div class="flash flash-error">
-        <?php foreach ($errors as $error): ?>
-            <div><?= htmlspecialchars($error) ?></div>
-        <?php endforeach; ?>
+<?php if ($msg = $this->getFlash('error')): ?>
+    <div class="flash-error">
+        <?= htmlspecialchars($msg) ?>
     </div>
 <?php endif; ?>

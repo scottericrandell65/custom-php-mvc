@@ -14,6 +14,7 @@ class CommentController extends Controller
 	 */
 	public function store($postId): void
 	{
+		$this->requireAuth();
 		$this->verifyCsrfToken();
 		
 		$validator = new Validator($_POST);

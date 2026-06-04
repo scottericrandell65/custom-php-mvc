@@ -61,4 +61,41 @@ class Controller
 	      die('Invalid CSRF token');
 	    }
         }
+	
+	protected function isAuthenticated(): bool
+	{
+	    return isset($_SESSION['user_id']);
+	}
+	
+	protected function requireAuth(): void
+	{
+	    if (!$this->isAuthenticated()) {
+		$this->flash('error', 'Please log in to continue.');
+		
+		header('Location: /login');
+		exit;
+	    }
+	}
+	
+	protected function guestOnly(): void
+	{
+	    if ($this->isAuthenticated()) {
+		header('Location: /');
+		exit;
+	    }
+	}
+	
+	// Simple (for now), restrict post creation to owner
+	protected function isAdmin(): bool
+	{
+	    return isset($_SESSION['user_email'])
+		&& $_SESSION['user_email'] === 'you@example.com';
+	}
+	
+	// Reusable ownership check
+	public function isOwner(array $resource): bool
+	{
+	    return isset($resource['user_id'], $_SESSION['user_id'])
+		&& (int)$resource['user_id'] === (int)$_SESSION['user_id'];
+	}
 }
