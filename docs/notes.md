@@ -25,9 +25,13 @@ The core framework is now stable and functional with:
 ## Recently Completed Work
 
 - User registration system implemented
+- Login/logout system completed
 - Password hashing and secure storage
 - Auto-login after registration working
-- User records created successfully in database
+- Session-based authentication standardized
+- Role-based access control (RBAC) implemented
+- Admin vs user permission separation complete
+- Ownership-based access control implemented
 
 ---
 
@@ -47,13 +51,13 @@ The core framework is now stable and functional with:
 
 ---
 
-### Authentication Foundation
-- Created UserModel
-- Created AuthController
-- Implemented login system
-- Added password hashing (password_hash / password_verify)
-- Session-based authentication state established
-- Login page integrated into MVC system
+## Authentication Architecture (FINALIZED)
+
+- Session-based authentication system
+- Centralized identity stored in Controller context
+- Role system stored in session (user_role)
+- Password hashing using PHP native functions
+- Clean login/logout lifecycle
 
 ---
 
@@ -68,15 +72,17 @@ The core framework is now stable and functional with:
 
 ## Current Work Phase
 
-### Authentication Completion Phase
+### Phase 2 Complete: Authentication + RBAC
 
-#### Next required steps:
+The system now includes:
 
-- User registration system
-- Login/logout flow finalization
-- Session cleanup improvements
-- Auth guard system (protect routes)
-- User identity integration into posts/comments
+- Full authentication lifecycle (register/login/logout)
+- Session-based identity management
+- Role-based access control (admin vs user)
+- Ownership-based permissions (user_id checks)
+- Centralized authorization helpers in Controller
+
+### Status: STABLE
 
 ---
 
@@ -125,17 +131,15 @@ Reason: keep framework understandable and debuggable
 ## Future Enhancements (Backlog)
 
 ### Medium Priority
-- User registration system
-- Password reset system
-- Route protection middleware
 - Pagination for posts/comments
-- Post ownership (user_id foreign key)
-
-### High Priority (Next Phase)
-- Admin role system
 - Image uploads for posts
-- Basic search functionality
+- Search functionality
 - Improved error pages (404/403/500)
+
+### High Priority
+- Admin dashboard UI layer
+- Post analytics (views/engagement tracking)
+- Comment moderation tools
 
 ---
 
@@ -161,13 +165,14 @@ The goal is a framework that can grow without requiring architectural replacemen
 
 ---
 
-## Next Milestone
+## Next Milestone (Phase 3)
 
-Complete authentication system:
+### UI/UX Layer Enhancement
 
-- Registration flow
-- Login/logout completion
-- Route protection middleware
-- User-linked content ownership
+- Navigation and layout polish
+- Admin vs user UI separation
+- Button, spacing, and form styling system
+- Flash message UI improvements
+- Layout visual hierarchy improvements
 
 

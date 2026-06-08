@@ -76,7 +76,7 @@ $router->post('/register', [AuthController::class, 'store']);
 $router->get('/login', [AuthController::class, 'login']);
 $router->post('/login', [AuthController::class, 'authenticate']);
 $router->post('/logout', [AuthController::class, 'logout']);
-$router->get('/post/{id}', [PostController::class, 'show']);
+$router->get('/posts/{id}', [PostController::class, 'show']);
 $router->get('/posts', [PostController::class, 'index']);
 $router->get('/posts/create', [PostController::class, 'create']);
 $router->post('/posts/store', [PostController::class, 'store']);
@@ -84,6 +84,9 @@ $router->get('/posts/edit/{id}', [PostController::class, 'edit']);
 $router->post('/posts/update/{id}', [PostController::class, 'update']);
 $router->post('/posts/delete/{id}', [PostController::class, 'delete']);
 $router->post('/post/{id}/comment', [CommentController::class, 'store']);
+$router->get('/comments/edit/{id}', [CommentController::class, 'edit']);
+$router->post('/comments/update/{id}', [CommentController::class, 'update']);
+$router->post('/comments/delete/{id}', [CommentController::class, 'delete']);
 
 /*
 |-----------------------------------------------

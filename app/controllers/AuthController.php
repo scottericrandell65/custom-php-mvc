@@ -130,12 +130,12 @@
 				header('Location: /login');
 				exit;
 			  }
-			  
-	 		  $_SESSION['user_id'] = $user['id'];
+			  // SESSION SETUP (SOURCE OF TRUTH)
+			  $_SESSION['user_id'] = (int)$user['id'];
 			  $_SESSION['user_name'] = $user['name'];
+			  $_SESSION['user_role'] = $user['role'];
 			  
 			  $this->flash('success', 'Logged in successfully.');
-			  $_SESSION['user_email'] = $user['email'];
 			  
 			  header('Location: /');
 			  exit;
@@ -146,7 +146,9 @@
 			// Clear authentication data
 			unset(
 				$_SESSION['user_id'],
-				$_SESSION['user_name']
+				$_SESSION['user_name'],
+				$_SESSION['user_role'],
+				$_SESSION['user_email']
 			);
 			
 			// Optional but cleaner: regenerate session ID (prevents fixation issues)

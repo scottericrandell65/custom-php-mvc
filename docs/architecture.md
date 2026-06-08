@@ -21,6 +21,7 @@ Browser
 → View
 → Layout (main.php)
 → Browser
+```
 
 ---
 
@@ -162,22 +163,46 @@ Flow:
 
 ---
 
-## 10. Authentication System (Current State)
+## Authentication & Authorization System (COMPLETE - Phase 2)
 
 ### Implemented:
-- UserModel
-- AuthController
-- Login system
-- Password hashing (password_hash / password_verify)
-- Session-based login state
-
-### In Progress:
-- User registration
-- Login/logout completion flow
-- Auth-protected routes
-- User ownership features
+- User registration system
+- Login/logout system
+- Session-based authentication
+- Role-based access control (RBAC)
+- Owner vs Admin authorization rules
+- Centralized authorization in Controller layer
 
 ---
+
+### Authorization Model
+
+The framework now enforces a centralized RBAC system:
+
+- Controllers enforce all access rules
+- Views only render based on injected context
+- Models do not handle authentication or authorization
+- Ownership is enforced via database `user_id`
+- Admin role overrides ownership checks
+
+---
+
+### Core Authorization Methods
+
+Defined in Controller:
+
+- isAdmin()
+- isOwner(resource)
+- authorizeOwnerOrAdmin(resource)
+- requireAuth()
+
+---
+
+### Rules
+
+- Admin can access all resources
+- Users can only modify their own resources
+- Guests have read-only access (unless explicitly allowed)
 
 # Database Schema
 
@@ -232,18 +257,21 @@ The system is currently stable with:
 - CSRF protection
 - Validation layer
 - Layout system
-- Authentication foundation
+- Authentication system
+- Role-Based Access Control (RBAC)
+- Ownership-based permissions
 
 ---
 
-# Next Milestone
+## Next Milestone (Phase 3)
 
-Authentication completion:
+UI/UX Layer Improvements:
 
-- User registration system
-- Login/logout finalization
-- Auth middleware (route protection)
-- User-linked content (posts/comments ownership)
-```
+- Navigation and layout polish
+- Admin vs user interface refinement
+- Button and form styling system
+- Flash message UI improvements
+- General frontend design system
+
 
 

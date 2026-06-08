@@ -11,38 +11,45 @@
 <?php else: ?>
 
 <ul>
-<?php foreach ($posts as $post): ?>
-     <li>
-
-       <a href="/post/<?= $post['id'] ?>">
-          <?= htmlspecialchars($post['title']) ?>
-       </a>
-
-       <small>
-          by <?= htmlspecialchars($post['author'] ?? 'Unknown') ?>
-       </small>
+    <?php foreach ($posts as $post): ?>
+        <li>
+            
+            <a href="/posts/<?= $post['id'] ?>">
+                <?= htmlspecialchars($post['title']) ?>
+            </a>
+            
+            <small>
+                by <?= htmlspecialchars($post['author'] ?? 'Unknown') ?>
+            </small>
+    
+<?php if (
+    !empty($isAuthenticated) &&
+    (
+        !empty($isAdmin) ||
+        (
+            !empty($user) &&
+            (int)$post['user_id'] === (int)$user['id']
+        )
+    )
+): ?>
+                |
+                <a href="/posts/edit/<?= $post['id'] ?>">Edit</a>
                 
-<?php if (!empty($_SESSION['user_id']) && $post['user_id'] == $_SESSION['user_id']): ?>
-          |
-          <a href="/posts/edit/<?= $post['id'] ?>">Edit</a>
-          
-       <form method="POST" action="/posts/delete/<?= $post['id'] ?>" 
-       style="display:inline;">
+                <form method="POST"
+                      action="/posts/delete/<?= $post['id'] ?>"
+                      style="display:inline;">
 
-         <input type="hidden" name="_token" value="<?= $_SESSION['_token'] ?>">
+                    <input type="hidden" name="_token" value="<?= htmlspecialchars($csrf_token) ?>">
 
-         <button type="submit" onclick="return confirm('Delete this post?')">
-           Delete
-         </button>
+                    <button type="submit"
+                            onclick="return confirm('Delete this post?')">
+                        Delete
+                    </button>
 
-       </form>
-<?php endif; ?>
-
-     </li>
-<?php endforeach; ?>
+                </form>
+            <?php endif; ?>
+            
+        </li>
+    <?php endforeach; ?>
 </ul>
-
 <?php endif; ?>
-          
-                    
-                

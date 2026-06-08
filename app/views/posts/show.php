@@ -6,9 +6,15 @@
     </small>
 </p>
 
-<p><?= htmlspecialchars($content) ?></p>
+<p><?= nl2br(htmlspecialchars($content)) ?></p>
 
-<?php if (!empty($_SESSION['user_id']) && $post['user_id'] == $_SESSION['user_id']): ?>
+<?php if (
+    !empty($isAuthenticated) &&
+    (
+        !empty($isAdmin) ||
+        (int)$post['user_id'] === (int)$user['id']
+    )
+): ?>
 
     <div style="margin-bottom: 10px;">
         <a href="/posts/edit/<?= $post_id ?>">Edit Post</a>
@@ -17,7 +23,7 @@
               action="/posts/delete/<?= $post_id ?>"
               style="display:inline;">
 
-            <input type="hidden" name="_token" value="<?= $token ?>">
+            <input type="hidden" name="_token" value="<?= htmlspecialchars($csrf_token) ?>">
 
             <button type="submit"
                     onclick="return confirm('Delete this post?')">
@@ -26,7 +32,7 @@
 
         </form>
     </div>
-    
+
 <?php endif; ?>
 
 <hr>
@@ -35,42 +41,63 @@
 
 <?php require __DIR__ . '/../partials/flash.php'; ?>
 
-<?php if (!empty($comments)): ?>
-    <?php foreach ($comments as $comment): ?>
-        <div style="margin-bottom:12px;">
-            <strong><?= htmlspecialchars($comment['name']) ?></strong><br>
-            <?= nl2br(htmlspecialchars($comment['comment'])) ?>
-        </div>
-    <?php endforeach; ?>
-<?php else: ?>
-    <p>No comments yet.</p>
-<?php endif; ?>
+<?php foreach ($comments as $comment): ?>
+    <div style="margin-bottom:12px;">
+
+        <strong><?= htmlspecialchars($comment['name']) ?></strong><br>
+
+        <?= nl2br(htmlspecialchars($comment['comment'])) ?>
+
+        <?php if (
+            !empty($isAuthenticated) &&
+            (
+                !empty($isAdmin) ||
+                (
+                    !empty($user) &&
+                    (int)$comment['user_id'] === (int)$user['id']
+                )
+            )
+        ): ?>
+        <div style="margin-top:6px;">
+
+                <a href="/comments/edit/<?= $comment['id'] ?>">
+                    Edit
+                </a>
+
+                <form method="POST"
+                      action="/comments/delete/<?= $comment['id'] ?>"
+                      style="display:inline;">
+
+                    <input type="hidden"
+                           name="_token"
+                           value="<?= htmlspecialchars($csrf_token) ?>">
+
+                    <button type="submit"
+                            onclick="return confirm('Delete this comment?')">
+                        Delete
+                    </button>
+                    </form>
+
+            </div>
+
+        <?php endif; ?>
+
+    </div>
+<?php endforeach; ?>
 
 <hr>
 
-<h3>Add Comments</h3>
+<h3>Add Comment</h3>
 
 <form method="POST" action="/post/<?= $post_id ?>/comment">
 
-    <input type="hidden" name="_token" value="<?= $token ?>">
-
-    <input type="text" name="name"
-           placeholder="Your name"
-           value="<?= htmlspecialchars($old['name'] ?? '')?>">
-           
-    <?php if (!empty($errors['name'])): ?>
-        <div class="field-error">
-            <?= htmlspecialchars($errors['name']) ?>
-        </div>
-    <?php endif; ?>
-           
+    <input type="hidden" name="_token" value="<?= htmlspecialchars($csrf_token) ?>">
 
     <br><br>
 
     <textarea name="comment"
-              placeholder="Your comment"><?= htmlspecialchars($old['comment'] ?? '') ?>
-    </textarea>
-    
+              placeholder="Your comment"><?= htmlspecialchars($old['comment'] ?? '') ?></textarea>
+
     <?php if (!empty($errors['comment'])): ?>
         <div class="field-error">
             <?= htmlspecialchars($errors['comment']) ?>
@@ -79,7 +106,5 @@
 
     <br><br>
 
-<button type="submit">Add Comment</button>
+    <button type="submit">Add Comment</button>
 </form>
-
-

@@ -9,7 +9,7 @@ CSRF protection, authentication foundation,
 and a custom routing engine without relying on a 
 third-party framework.
 
-## Current Features
+---
 
 ### Core Framework
 
@@ -21,12 +21,29 @@ third-party framework.
 - Prepared statements for SQL safety
 - View rendering with layout support
 
+---
+
 ### Security
 
 - CSRF protection
 - Password hashing support
 - Input validation layer
-- Session-based authentication foundation
+- Session-based authentication
+- Role-based access control (RBAC)
+- Centralized authorization system
+
+---
+
+### Authorization (RBAC System - Phase 2 Complete)
+
+- Centralized authorization logic in Controller.php
+- Owner vs Admin permission system
+- authorizeOwnerOrAdmin() helper for secure resource access
+- No permission logic inside views or models
+- View content injection ($user, $isAdmin, $isAuthenticated)
+- Ownership validation via database records (user_id)
+
+---
 
 ### Blog System
 
@@ -36,13 +53,18 @@ third-party framework.
 - Delete posts
 - Post detail pages
 
+---
+
 ### Comment System
 
 - Add comments to blog posts
-- Comment validation
-- Flash success messages
-- Validation error handling
-- Sticky form inputs after validation failures
+- Comment validation system
+- Flash messaging system
+- Validation error handling with session persistence
+- Form state persistence after validation errors 
+- Ownership-based comment permissions (RBAC)
+
+---
 
 ### User Experience
 
@@ -50,6 +72,8 @@ third-party framework.
 - Layout system
 - Reusable partials
 - Asset pipeline for CSS, JavaScript, and images
+
+---
 
 ### Authentication (Current Status)
 
@@ -64,25 +88,28 @@ third-party framework.
 - Auto-login after registration
 - User creation in database
 
-#### In Progress:
-
-- Login/logout testing
-- Login flow validation and UX consistency
-- Logout implementation and session cleanup
-- Route protection (auth middleware-style guards)
-- Route protection
-- Authorization middleware
+---
 
 #### Current State
 
-Authentication foundation is functional via registration, 
-but full login/logout lifecycle is still being finalized.
+Authentication system is fully implemented with session-based login/logout,
+including role-based access control (RBAC) and centralized authorization.
+
+The framework now includes:
+
+- Session-based authentication (login/logout)
+- Role-based access control (RBAC)
+- Centralized authorization in Controller layer
+- Ownership-based access control for resources
+- Admin override permissions
 
 ---
 
 ## Architecture Overview
 
 The application follows a traditional MVC architecture.
+
+---
 
 ### Request Flow
 
@@ -95,6 +122,12 @@ Browser
 → View  
 → Layout  
 → Browser  
+
+Authorization Flow (RBAC)
+-> isAuthenticated()
+-> authorizeOwnerOrAdmin(resource)
+-> Model executes safe operation
+-> View renders using injected context ($user, $isAdmin)
 
 ---
 

@@ -53,10 +53,7 @@ class PostController extends Controller
     {
 	$this->requireAuth();
 	
-	if (!$this->isAdmin()) {
-	    http_response_code(403);
-	    exit('Only the site owner can create posts.');
-	}
+	$this->authorizeAdmin();
 	
 	$this->view('posts/create', [
 	    'title' => 'Create Post',
@@ -72,10 +69,7 @@ class PostController extends Controller
     {
 	$this->requireAuth();
 	
-	if (!$this->isAdmin()) {
-	    http_response_code(403);
-	    exit('Only the site owner can create posts.');
-	}
+	$this->authorizeAdmin();
 	
 	$validator = new Validator($_POST);
 	
@@ -113,10 +107,7 @@ class PostController extends Controller
 	    return;
 	}
 	
-	if (!$this->isOwner($post)) {
-	    http_response_code(403);
-	    exit('You are not allowed to edit this post.');
-	}
+	$this->authorizeAdmin();
 	
 	$this->view('posts/edit', [
 	    'title' => 'Edit Post',
@@ -150,10 +141,7 @@ class PostController extends Controller
 	    return;
 	}
 	
-	if (!$this->isOwner($post)) {
-	    http_response_code(403);
-	    exit('You are not allowed to update this post.');
-	}
+	$this->authorizeAdmin();
 	
 	$this->postModel->update(
 	    (int)$id,
@@ -178,10 +166,7 @@ class PostController extends Controller
 	    return;
 	}
 	
-	if (!$this->isOwner($post)) {
-	    http_response_code(403);
-	    exit('You are not allowed to delete this post.');
-	}
+	$this->authorizeOwnerOrAdmin($post);
 	
 	$this->postModel->delete((int)$id);
 	
