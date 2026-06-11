@@ -1,52 +1,64 @@
 <h1><?= htmlspecialchars($title) ?></h1>
 
-<p>
-    <small>
+<!-- POST CARD -->
+<div class="post-full">
+
+    <div class="post-full-meta">
         By <?= htmlspecialchars($post['author'] ?? 'Unknown') ?>
-    </small>
-</p>
-
-<p><?= nl2br(htmlspecialchars($content)) ?></p>
-
-<?php if (
-    !empty($isAuthenticated) &&
-    (
-        !empty($isAdmin) ||
-        (int)$post['user_id'] === (int)$user['id']
-    )
-): ?>
-
-    <div style="margin-bottom: 10px;">
-        <a href="/posts/edit/<?= $post_id ?>">Edit Post</a>
-
-        <form method="POST"
-              action="/posts/delete/<?= $post_id ?>"
-              style="display:inline;">
-
-            <input type="hidden" name="_token" value="<?= htmlspecialchars($csrf_token) ?>">
-
-            <button type="submit"
-                    onclick="return confirm('Delete this post?')">
-                Delete
-            </button>
-
-        </form>
     </div>
 
-<?php endif; ?>
+    <div class="post-full-content">
+        <?= nl2br(htmlspecialchars($content)) ?>
+    </div>
+
+    <?php if (
+        !empty($isAuthenticated) &&
+        (
+            !empty($isAdmin) ||
+            (int)$post['user_id'] === (int)$user['id']
+        )
+    ): ?>
+
+        <div class="post-card-actions">
+
+            <a href="/posts/edit/<?= $post_id ?>">Edit Post</a>
+
+            <form method="POST"
+                  action="/posts/delete/<?= $post_id ?>">
+
+                <input type="hidden"
+                       name="_token"
+                       value="<?= htmlspecialchars($csrf_token) ?>">
+
+                <button type="submit"
+                        onclick="return confirm('Delete this post?')">
+                    Delete
+                </button>
+
+            </form>
+
+        </div>
+
+    <?php endif; ?>
+
+</div>
 
 <hr>
 
+<!-- COMMENTS SECTION -->
 <h3>Comments</h3>
 
 <?php require __DIR__ . '/../partials/flash.php'; ?>
 
 <?php foreach ($comments as $comment): ?>
-    <div style="margin-bottom:12px;">
 
-        <strong><?= htmlspecialchars($comment['name']) ?></strong><br>
+    <div class="comment-card">
 
-        <?= nl2br(htmlspecialchars($comment['comment'])) ?>
+        <strong><?= htmlspecialchars($comment['name']) ?></strong>
+
+        <div class="comment-body">
+            <?= nl2br(htmlspecialchars($comment['comment'])) ?>
+        </div>
 
         <?php if (
             !empty($isAuthenticated) &&
@@ -58,15 +70,15 @@
                 )
             )
         ): ?>
-        <div style="margin-top:6px;">
+
+            <div class="post-card-actions">
 
                 <a href="/comments/edit/<?= $comment['id'] ?>">
                     Edit
                 </a>
 
                 <form method="POST"
-                      action="/comments/delete/<?= $comment['id'] ?>"
-                      style="display:inline;">
+                      action="/comments/delete/<?= $comment['id'] ?>">
 
                     <input type="hidden"
                            name="_token"
@@ -76,35 +88,41 @@
                             onclick="return confirm('Delete this comment?')">
                         Delete
                     </button>
-                    </form>
+
+                </form>
 
             </div>
 
         <?php endif; ?>
 
     </div>
+
 <?php endforeach; ?>
 
 <hr>
 
-<h3>Add Comment</h3>
+<!-- ADD COMMENT -->
+<div class="post-full">
 
-<form method="POST" action="/post/<?= $post_id ?>/comment">
+    <h3>Add Comment</h3>
 
-    <input type="hidden" name="_token" value="<?= htmlspecialchars($csrf_token) ?>">
+    <form method="POST" action="/post/<?= $post_id ?>/comment">
 
-    <br><br>
+        <input type="hidden"
+               name="_token"
+               value="<?= htmlspecialchars($csrf_token) ?>">
 
-    <textarea name="comment"
-              placeholder="Your comment"><?= htmlspecialchars($old['comment'] ?? '') ?></textarea>
+        <textarea name="comment"
+                  placeholder="Your comment"><?= htmlspecialchars($old['comment'] ?? '') ?></textarea>
 
-    <?php if (!empty($errors['comment'])): ?>
-        <div class="field-error">
-            <?= htmlspecialchars($errors['comment']) ?>
-        </div>
-    <?php endif; ?>
+        <?php if (!empty($errors['comment'])): ?>
+            <div class="field-error">
+                <?= htmlspecialchars($errors['comment']) ?>
+            </div>
+        <?php endif; ?>
 
-    <br><br>
+        <button type="submit">Add Comment</button>
 
-    <button type="submit">Add Comment</button>
-</form>
+    </form>
+
+</div>

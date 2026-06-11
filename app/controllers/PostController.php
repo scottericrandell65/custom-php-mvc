@@ -112,8 +112,12 @@ class PostController extends Controller
 	$this->view('posts/edit', [
 	    'title' => 'Edit Post',
 	    'post' => $post,
-	    'token' => $this->csrfToken()
+	    'token' => $this->csrfToken(),
+	    'errors' => $_SESSION['errors'] ?? [],
+	    'old' => $_SESSION['old'] ?? []
 	]);
+	
+	unset($_SESSION['errors'], $_SESSION['old']);
     }
     
     public function update($id): void

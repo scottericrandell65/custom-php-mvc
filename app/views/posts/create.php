@@ -1,12 +1,59 @@
 <h1><?= htmlspecialchars($title) ?></h1>
 
-<form method="POST" action="/posts/store">
-    <input type="hidden" name="_token" value="<?= $token ?>">
-    <label>Title</label><br>
-    <input type="text" name="title"><br><br>
+<div class="form-card">
 
-    <label>Content</label><br>
-    <textarea name="content"></textarea><br><br>
+    <form method="POST" action="/posts/store">
 
-    <button type="submit">Create Post</button>
-</form>
+        <input
+            type="hidden"
+            name="_token"
+            value="<?= htmlspecialchars($token) ?>">
+
+
+        <div class="form-group">
+            <label for="title">Title</label>
+
+            <input
+                id="title"
+                type="text"
+                name="title"
+                value="<?= htmlspecialchars($old['title'] ?? '') ?>"
+                class="<?= !empty($errors['title']) ? 'input-error' : '' ?>">
+                
+            <?php if (!empty($errors['title'])): ?>
+                <div class="field-error">
+                    <?= htmlspecialchars($errors['title']) ?>
+                </div>
+            <?php endif; ?>
+            
+        </div>
+        
+        <div class="form-group">
+
+            <label for="content">Content</label>
+
+            <textarea
+                id="content"
+                name="content"
+                class="<?= !empty($errors['content']) ? 'textarea-error' : '' ?>"><?= htmlspecialchars($old['content'] ?? '') ?></textarea>
+
+            <?php if (!empty($errors['content'])): ?>
+                <div class="field-error">
+                    <?= htmlspecialchars($errors['content']) ?>
+                </div>
+            <?php endif; ?>
+
+        </div>
+                
+        <div class="form-actions">
+            <button type="submit">
+                Create Post
+            </button>
+        </div>
+        
+    </form>
+    
+</div>
+        
+
+        

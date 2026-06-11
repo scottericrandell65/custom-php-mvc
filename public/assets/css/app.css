@@ -1,3 +1,18 @@
+/*
+|---------------------------------------------------------------------
+| Application Stylesheet
+|---------------------------------------------------------------------
+|
+| Phase 3 UI Layer
+| Layout
+| Navigation
+| Forms
+| Components
+| Flash Messages
+|
+*/
+
+/* Layout */
 body {
 	font-family: Arial, sans-serif;
 	margin: 20px;
@@ -5,34 +20,19 @@ body {
 	color: #333;
 }
 
-h1, h3 {
-	margin-bottom: 10px;
+.container {
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 20px;
 }
 
-hr {
-	margin: 20px 0;
-}
-
-input,
-textarea {
+.content {
 	width: 100%;
-	max-width: 500px;
-	padding: 8px;
-	margin-top: 5px;
+}
+
+/* Typography */
+h1, h2, h3 {
 	margin-bottom: 10px;
-}
-
-button {
-	padding: 8px 12px;
-	cursor: pointer;
-	background: #2c3e50;
-	color: white;
-	border: none;
-	border-radius: 4px;
-}
-
-button:hover {
-	background: #1a252f;
 }
 
 a {
@@ -45,21 +45,44 @@ a:hover {
 	text-decoration: underline;
 }
 
-.post-item {
+/* Header */
+.site-header {
+	background: #2c3e50;
+	color: white;
+	padding: 15px 20px;
 	margin-bottom: 20px;
-	padding-bottom: 10px;
-	border-bottom: 1px solid #ddd;
 }
 
-.post-meta {
-	display: block;
+.nav {
+	margin-top: 10px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	align-items: center;
+}
+
+.nav a {
+	color: white;
+	text-decoration: none;
+}
+
+.nav a:hover {
+	text-decoration: underline;
+}
+
+.nav-user {
+	color: #ecf0f1;
 	font-size: 0.9em;
-	color: #666;
-	margin-top: 3px;
 }
 
-.post-actions {
-	margin-top: 5px;
+.nav-separator {
+	color: #95a5a6;
+}
+
+/* Components */
+.brand h2 {
+	margin: 0;
+	font-size: 20px;
 }
 
 .inline-form {
@@ -79,16 +102,193 @@ a:hover {
 	text-decoration: underline;
 }
 
-.flash-success {
-	background: #e6ffed;
+hr {
+	margin: 20px 0;
+}
+
+input,
+textarea {
+	width: 100%;
+	padding: 8px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	box-sizing: border-box;
+}
+
+button {
+	padding: 8px 12px;
+	cursor: pointer;
+	background: #2c3e50;
+	color: white;
+	border: none;
+	border-radius: 4px;
+}
+
+button:hover {
+	background: #1a252f;
+}
+
+/*
+.post-item {
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #ddd;
+}
+
+.post-meta {
+	display: block;
+	font-size: 0.9em;
+	color: #666;
+	margin-bottom: 10px;
+}
+
+.post-actions {
+	margin-top: 10px;
+}
+*/
+
+/* Post Cards */
+
+.post-card {
+	background: white;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 16px;
+	margin-bottom: 20px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.post-card h2 {
+	margin-top: 0;
+	margin-bottom: 8px;
+}
+
+.post-card-title {
+	font-size: 1.25rem;
+	font-weight: bold;
+	margin-bottom: 8px;
+}
+
+.post-card-meta {
+	font-size: 0.9rem;
+	color: #666;
+	margin-bottom: 12px;
+}
+
+.post-card-actions {
+	margin-top: 12px;
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.post-card:last-child {
+	margin-bottom: 0;
+}
+
+.post-card-actions form {
+	display: inline;
+}
+
+/* Show page post layout */
+.post-full {
+	background: white;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 20px;
+	margin-bottom: 20px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.form-card {
+	background: white;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 20px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.form-group {
+	margin-bottom: 20px;
+}
+
+.form-group label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea {
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+.form-group textarea {
+	min-height: 180px;
+	resize: vertical;
+}
+
+.form-actions {
+	margin-top: 20px;
+}
+
+.post-full-title {
+	font-size: 1.5rem;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.post-full-meta {
+	color: #666;
+	font-size: 0.9rem;
+	margin-bottom: 15px;
+}
+
+.comment-card {
+	background: #fff;
+	border: 1px solid #eee;
+	border-radius: 6px;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.post-title {
+	font-size: 1.2rem;
+	font-weight: bold;
+	margin-bottom: 6px;
+}
+
+/* Validation */
+
+.field-error {
+	color: #c0392b;
+	font-size: 0.9rem;
+	margin-top: 5px;
+}
+
+.input-error,
+.textarea-error {
+	border: 1px solid #c0392b;
+}
+
+/* Flash Messages */
+.flash-success,
+.flash-error {
 	padding: 10px;
 	border-radius: 4px;
 	margin-bottom: 10px;
 }
 
+.flash-success {
+	background: #e6ffed;
+	border: 1px solid #b7ebc6;
+}
+
 .flash-error {
 	background: #ffe6e6;
-	padding: 10px;
-	border-radius: 4px;
-	margin-bottom: 10px;
+	border: 1px solid #efb0b0;
 }

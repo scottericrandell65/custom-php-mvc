@@ -9,12 +9,15 @@
 </head>
 
 <body>
-    
+
 <?php require __DIR__ . '/../partials/header.php'; ?>
 
-<main>
-     <?= $content ?>
-</main>
+<div class="container">
+
+    <main class="content">
+        <?= $content ?>
+    </main>
+
+</div>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>
-

@@ -10,18 +10,20 @@
     <p>No posts found.</p>
 <?php else: ?>
 
-<ul>
-    <?php foreach ($posts as $post): ?>
-        <li>
-            
+<?php foreach ($posts as $post): ?>
+
+    <div class="post-card">
+
+        <div class="post-card-title">
             <a href="/posts/<?= $post['id'] ?>">
                 <?= htmlspecialchars($post['title']) ?>
             </a>
-            
-            <small>
-                by <?= htmlspecialchars($post['author'] ?? 'Unknown') ?>
-            </small>
-    
+        </div>
+
+        <div class="post-card-meta">
+            by <?= htmlspecialchars($post['author'] ?? 'Unknown') ?>
+        </div>
+
 <?php if (
     !empty($isAuthenticated) &&
     (
@@ -32,24 +34,35 @@
         )
     )
 ): ?>
-                |
-                <a href="/posts/edit/<?= $post['id'] ?>">Edit</a>
-                
-                <form method="POST"
-                      action="/posts/delete/<?= $post['id'] ?>"
-                      style="display:inline;">
 
-                    <input type="hidden" name="_token" value="<?= htmlspecialchars($csrf_token) ?>">
+        <div class="post-card-actions">
 
-                    <button type="submit"
-                            onclick="return confirm('Delete this post?')">
-                        Delete
-                    </button>
+            <a href="/posts/edit/<?= $post['id'] ?>">
+                Edit
+            </a>
 
-                </form>
-            <?php endif; ?>
-            
-        </li>
-    <?php endforeach; ?>
-</ul>
+            <form method="POST"
+                  action="/posts/delete/<?= $post['id'] ?>">
+
+                <input
+                    type="hidden"
+                    name="_token"
+                    value="<?= htmlspecialchars($csrf_token) ?>">
+
+                <button
+                    type="submit"
+                    onclick="return confirm('Delete this post?')">
+                    Delete
+                </button>
+
+            </form>
+
+        </div>
+
+<?php endif; ?>
+
+    </div>
+
+<?php endforeach; ?>
+
 <?php endif; ?>
